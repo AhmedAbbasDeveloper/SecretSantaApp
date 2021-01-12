@@ -1,0 +1,33 @@
+<%- include("header") -%>
+
+<section class="white-section">
+  <div class="container-fluid">
+
+    <p style="text-align:left">Please input your top three choices of gifts you would like to receive. Remember, the Secret Santa budget is $<%= budget %>.</p>
+
+    <form style="text-align:left" method="post">
+
+      <div class="mb-3">
+        <div class="row">
+
+          <div class="col">
+            <input type="text" name="choice1" class="form-control" placeholder="Choice 1" required>
+          </div>
+          <div class="col">
+            <input type="text" name="choice2" class="form-control" placeholder="Choice 2" required>
+          </div>
+          <div class="col">
+            <input type="text" name="choice3" class="form-control" placeholder="Choice 3" required>
+          </div>
+
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-danger">Submit</button>
+
+    </form>
+
+  </div>
+</section>
+
+<%- include("footer") -%>

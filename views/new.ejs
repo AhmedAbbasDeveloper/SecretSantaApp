@@ -1,0 +1,35 @@
+<%- include("header") -%>
+
+<section class="white-section">
+  <div class="container-fluid">
+
+    <p style="text-align:left">Please fill in the following fields to create your group.</p>
+
+    <form method="post" style="text-align:left">
+
+      <div class="mb-3">
+        <input type="text" name="groupName" class="form-control" placeholder="Group Name" required autofocus>
+      </div>
+      <div class="mb-3">
+        <input type="number" name="groupBudget" class="form-control" placeholder="Budget" required>
+      </div>
+	
+      <div class="mb-3">
+        <div id="reqs" style="display: inline">
+        </div>
+      </div>	
+
+      <div class="mb-3" style="text-align:center">
+        <button type="button" class="btn btn-danger" value="Add" onclick="javascript:add();">Add participant</button>
+      </div>
+
+      <button type="submit" class="btn btn-danger">Submit</button>
+
+    </form>
+
+  </div>
+</section>
+
+<script src="/js/new.js" charset="utf-8"></script>
+
+<%- include("footer") -%>

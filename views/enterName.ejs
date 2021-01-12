@@ -1,0 +1,26 @@
+<%- include("header") -%>
+
+<section class="white-section">
+  <div class="container-fluid">
+
+    <p style="text-align:left">Please select your name.</p>
+
+    <form method="post" style="text-align:left">
+
+      <div class="mb-3">
+      <select name="participantName" class="form-select" aria-label="Default select example">
+        <option selected disabled>Select your name</option>
+        <%  participants.forEach(function(participants){ %>
+        <option value="<%=participants.name%>"><%=participants.name%></option>
+        <%  }) %>
+      </select>
+      </div>
+
+      <button type="submit" class="btn btn-danger">Submit</button>
+
+    </form>
+
+  </div>
+</section>
+
+<%- include("footer") -%>

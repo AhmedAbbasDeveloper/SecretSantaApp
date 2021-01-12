@@ -1,0 +1,26 @@
+<%- include("header") -%>
+
+<body>
+
+<section class="white-section">
+  <div class="container-fluid">
+
+<h3>Hi <%= name %></h3>
+    <p>You will be buying a gift for</p>
+    <h5><%= giftee %></h5>
+
+    <% if (choices.length > 0) { %>
+      <p>Here are some things they have requested as gifts. Remember that the budget is <%= budget %>.</p>
+      <ul>
+        <% for (let i = 0; i < choices.length; i++) { %>
+          <li><%= choices[i] %></li>
+        <% } %>
+      </ul>
+    <% } else {%>
+      <p>They haven't submitted their gift choices yet. Check back soon!</p>
+    <% } %>
+
+  </div>
+</section>
+
+<%- include("footer") -%>
