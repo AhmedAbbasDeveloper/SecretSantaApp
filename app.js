@@ -43,69 +43,72 @@ app.get("/", function(req, res) {
 });
 
 app.get("/new", function(req, res) {
-  res.render("new", {currentYear: currentYear});
+  res.render("new", {tooFewWarning: false, currentYear: currentYear});
 });
 
 app.post("/new", function(req, res) {
-
-  const newGroup = new Group({
-    name: req.body.groupName,
-    budget: req.body.groupBudget
-  });
-  newGroup.save();
-
-  let listOfParticipants = [];
-  let remainingGifters = [];
-  let remainingGiftees = [];
-
-  for (let key of Object.keys(req.body)) {
-    let info = req.body[key];
-    if (info != req.body.groupName && info != req.body.groupBudget) {
-      listOfParticipants.push(info);
-      remainingGifters.push(info);
-      remainingGiftees.push(info);
-    }
-  }
-
-  let gifters = [];
-  let giftees = [];
-
-  for (let i = 0; i < listOfParticipants.length; i++) {
-    let gifter = listOfParticipants[i];
-    if (giftees.includes(gifter) === false) {
-      let randomNumber = getRandomNumber(remainingGiftees);
-      let giftee = remainingGiftees[randomNumber];
-      while (giftee === gifter) {
-        randomNumber = getRandomNumber(remainingGiftees);
-        giftee = remainingGiftees[randomNumber];
-      }
-      remainingGifters.splice(remainingGifters.indexOf(gifter), 1);
-      remainingGiftees.splice(remainingGiftees.indexOf(giftee), 1);
-      gifters.push(gifter);
-      giftees.push(giftee);
-    }
-  }
-
-  for (let i = 0; i < remainingGifters.length; i++) {
-    let giftGiver = remainingGifters[i];
-    let randomNumber = getRandomNumber(remainingGiftees);
-    let giftGetter = remainingGiftees[randomNumber];
-    remainingGiftees.splice(randomNumber, 1);
-    gifters.push(giftGiver);
-    giftees.push(giftGetter);
-  }
-
-  for (let i = 0; i < gifters.length; i++) {
-    const newParticipant = new Participant({
-      name: gifters[i],
-      gifter: gifters[giftees.indexOf(gifters[i])],
-      giftee: giftees[i],
-      secretSantagroup: newGroup._id
+  if (Object.keys(req.body).length < 5) {
+    res.render("new", {tooFewWarning: true, currentYear: currentYear});
+  } else {
+    const newGroup = new Group({
+      name: req.body.groupName,
+      budget: req.body.groupBudget
     });
-    newParticipant.save();
-  }
+    newGroup.save();
 
-  res.redirect(createUrl(newGroup._id, "confirmation"));
+    let listOfParticipants = [];
+    let remainingGifters = [];
+    let remainingGiftees = [];
+
+    for (let key of Object.keys(req.body)) {
+      let info = req.body[key];
+      if (info != req.body.groupName && info != req.body.groupBudget) {
+        listOfParticipants.push(info);
+        remainingGifters.push(info);
+        remainingGiftees.push(info);
+      }
+    }
+
+    let gifters = [];
+    let giftees = [];
+
+    for (let i = 0; i < listOfParticipants.length; i++) {
+      let gifter = listOfParticipants[i];
+      if (giftees.includes(gifter) === false) {
+        let randomNumber = getRandomNumber(remainingGiftees);
+        let giftee = remainingGiftees[randomNumber];
+        while (giftee === gifter) {
+          randomNumber = getRandomNumber(remainingGiftees);
+          giftee = remainingGiftees[randomNumber];
+        }
+        remainingGifters.splice(remainingGifters.indexOf(gifter), 1);
+        remainingGiftees.splice(remainingGiftees.indexOf(giftee), 1);
+        gifters.push(gifter);
+        giftees.push(giftee);
+      }
+    }
+
+    for (let i = 0; i < remainingGifters.length; i++) {
+      let giftGiver = remainingGifters[i];
+      let randomNumber = getRandomNumber(remainingGiftees);
+      let giftGetter = remainingGiftees[randomNumber];
+      remainingGiftees.splice(randomNumber, 1);
+      gifters.push(giftGiver);
+      giftees.push(giftGetter);
+    }
+
+    for (let i = 0; i < gifters.length; i++) {
+      const newParticipant = new Participant({
+        name: gifters[i],
+        gifter: gifters[giftees.indexOf(gifters[i])],
+        giftee: giftees[i],
+        secretSantagroup: newGroup._id
+      });
+      newParticipant.save();
+    }
+
+    res.redirect(createUrl(newGroup._id, "confirmation"));
+  }
 });
 
 app.get("/:groupID/confirmation", function(req, res) {

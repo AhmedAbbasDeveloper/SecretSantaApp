@@ -1,5 +1,12 @@
 <%- include("header") -%>
 
+<% if (tooFewWarning) { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Ho Ho Hold on there!</strong> You need at least 3 participants to create a group.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% } %>
+
 <section class="white-section">
   <div class="container-fluid">
 
@@ -13,11 +20,11 @@
       <div class="mb-3">
         <input type="number" name="groupBudget" class="form-control" placeholder="Budget" required>
       </div>
-	
+
       <div class="mb-3">
         <div id="reqs" style="display: inline">
         </div>
-      </div>	
+      </div>
 
       <div class="mb-3" style="text-align:center">
         <button type="button" class="btn btn-danger" value="Add" onclick="javascript:add();">Add participant</button>
